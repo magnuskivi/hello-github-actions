@@ -9,3 +9,15 @@ jobs:
       - uses: ./action-a
         with:
           MY_NAME: "Mona"
+  slackNotification:
+    needs: build
+    if: always()
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_TITLE: ${{ job.status }}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
